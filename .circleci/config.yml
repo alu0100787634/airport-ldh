@@ -1,7 +1,17 @@
 version: 2.1
-orbs:
-  maven: circleci/maven@1.0
+
+jobs:
+  build:
+    docker:
+      - image: 'circleci/openjdk:11-jdk'
+    steps:
+      - checkout
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar -Dsonar.projectKey=alu0100787634_airport-ldh
+
 workflows:
-  maven_test:
+  main:
     jobs:
-      - maven/test
+      - build:
+          context: SonarCloud
